@@ -1,12 +1,12 @@
-#include "../include/cubo.h"
+#include "../include/cube.h"
 #include <cstring>
 
-Cubo::Cubo(){
+Cube::Cube(){
 
-    leds = new int [512];
+    
 }
 
-Cubo::~Cubo(){
+Cube::~Cube(){
 
 }
 
