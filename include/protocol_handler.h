@@ -5,18 +5,17 @@
 #include <string>
 #include <cube.h>
 
-std::unordered_map<int, std::string> answers_name = {  // used for handling the answers of the cube
+std::unordered_map<int, std::string> answers_name = { // used for handling the answers of the cube
     {0x41, "ACK"},
     {0x4E, "NAK"},
     {0x4D, "MND"},
     {0x49, "NID"},
-    {0x44, "TOUT"}
-};
+    {0x44, "TOUT"}};
 
 #if defined(_WIN32)
 
-    #include <windows.h>
-    
+#include <windows.h>
+
 #endif
 
 #define SNC 0xD3
@@ -32,25 +31,22 @@ std::unordered_map<int, std::string> answers_name = {  // used for handling the 
 
 class Protocol_handler{
 
-    public:
+public:
+    Protocol_handler();
+    virtual ~Protocol_handler();
 
-        Protocol_handler();
-        virtual ~Protocol_handler();
+    int open();
+    int send_cube(char cid, Cube cubo);
+    void activate_cube(char cid);
+    void clear_cube();
 
-        int open();
-        int send_cube(char cid, Cube cubo);
-        void activate_cube(char cid);
-        void clear_cube();
-    
-    private:
-
-        char port[6];
-        char in[2];
-        char out[2];
-        int baudrate;
-        HANDLE pcom;
-        unsigned long n;
+private:
+    char port[6];
+    char in[2];
+    char out[2];
+    int baudrate;
+    HANDLE pcom;
+    unsigned long n;
 };
-
 
 #endif
