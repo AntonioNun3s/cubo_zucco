@@ -16,7 +16,7 @@ std::uniform_int_distribution<> dist_pos(0, 8);
 class Effects{
 
 public:
-    Effects(Protocol_handler *new_prot);
+    Effects(Protocol_handler *new_prot, Cube* new_cube);
     virtual ~Effects();
 
     void meteors();
