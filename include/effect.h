@@ -13,9 +13,6 @@ std::uniform_int_distribution<> dist_x_y(0, 2);
 std::uniform_int_distribution<> dist_pos_half(0, 4);
 std::uniform_int_distribution<> dist_pos(0, 8);
 
-auto delay_blink = std::chrono::milliseconds(120);
-auto delay_move_y = std::chrono::milliseconds(200);
-
 class Effects{
 
 public:
@@ -26,6 +23,7 @@ public:
     void cross_fill_up();
     void random_leds();
     void fill_with_planes();
+    void sleep_for(int ms);
 
 private:
     Protocol_handler *prot;

@@ -10,6 +10,10 @@ Effects::~Effects(){
 
 }
 
+void Effects::sleep_for(int ms){
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}
+
 void Effects::meteors(){
 
     for(int x = 7; x >= 0; x--){
@@ -77,7 +81,7 @@ void Effects::fill_with_planes(){
     for(int i = 0; i < 8; i++){
         for(int y = 7; y >= 0 + i; y--){
 
-            std::this_thread::sleep_for(delay_move_y);
+            sleep_for(200);
 
             if(y < 7){
                 memset(mat, 0, 64);
@@ -92,16 +96,115 @@ void Effects::fill_with_planes(){
     }
 
     for(int i = 0; i < 6; i++){
-        std::this_thread::sleep_for(delay_blink);
+
+        sleep_for(120);
 
         if((*cube_ptr)[4][4][4] == 10){
-            memset(cube_ptr, 0, 512);
+            memset(*cube_ptr, 0, 512);
         }else{
-            memset(cube_ptr, 10, 512);
+            memset(*cube_ptr, 10, 512);
         }
 
         prot->send_cube(0, cube_ptr);
         prot->activate_cube(0);
     }
+}
+
+void Effects::cross_fill_up(){
+
+    for(int x = 3; x <= 4; x++){
+        for(int y = 3; y <= 4; y++){
+            for(int z = 3; z <= 4; z++){
+                (*cube_ptr)[x][y][z] = 10;
+            }
+        }
+    }
+
+    prot->send_cube(0, cube_ptr);
+    prot->activate_cube(0);
+
+    for(int x = 2; x >= 0; x--){
+        sleep_for(100);
+
+        for(int y = 3; y <= 4; y++){
+            for(int z = 3; z <= 4; z++){
+                (*cube_ptr)[x][y][z] = 10;
+                (*cube_ptr)[7 - x][y][z] = 10;
+            }
+        }
+        prot->send_cube(0, cube_ptr);
+        prot->activate_cube(0);
+    }
+
+    for(int z = 2; z >= 0; z--){
+        sleep_for(100);
+
+        for(int x = 3; x <= 4; x++){
+            for(int y = 3; y <= 4; y++){
+                (*cube_ptr)[x][y][z] = 10;
+                (*cube_ptr)[x][y][7 - z] = 10;
+            }
+        }
+        prot->send_cube(0, cube_ptr);
+        prot->activate_cube(0);
+    }
+
+    for(int y = 2; y >= 0; y--){
+        sleep_for(100);
+
+        for(int x = 3; x <= 4; x++){
+            for(int z = 3; z <= 4; z++){
+                (*cube_ptr)[x][y][z] = 10;
+                (*cube_ptr)[x][7 - y][z] = 10;
+            }
+        }
+        prot->send_cube(0, cube_ptr);
+        prot->activate_cube(0);
+    }
+
+    for(int i = 0; i < 3; i++){
+
+        sleep_for(100);
+
+        (*cube_ptr)[3 - i][3 - i][3 - i] = 10;
+        (*cube_ptr)[3 - i][3 - i][4 + i] = 10;
+        (*cube_ptr)[3 - i][4 + i][3 - i] = 10;
+        (*cube_ptr)[3 - i][4 + i][4 + i] = 10;
+        (*cube_ptr)[4 + i][3 - i][3 - i] = 10;
+        (*cube_ptr)[4 + i][3 - i][4 + i] = 10;
+        (*cube_ptr)[4 + i][4 + i][3 - i] = 10;
+        (*cube_ptr)[4 + i][4 + i][4 + i] = 10;
+
+        prot->send_cube(0, cube_ptr);
+        prot->activate_cube(0);
+    }
+
+    for(int i = 0; i < 3; i++){
+        sleep_for(100);
+        for(int x = 2 - i; x < 5 + i; i++){
+            for(int y = 2 - i; y < 5 + i; i++){
+                for(int z = 2 - i; z < 5 + i; z++){
+                    (*cube_ptr)[x][y][z] = 10;
+                }
+            }
+        }
+        prot->send_cube(0, cube_ptr);
+        prot->activate_cube(0);
+    }
+    
+    for(int i = 0; i < 6; i++){
+
+        sleep_for(120);
+
+        if((*cube_ptr)[4][4][4] == 10){
+            memset(*cube_ptr, 0, 512);
+        }else{
+            memset(*cube_ptr, 10, 512);
+        }
+
+        prot->send_cube(0, cube_ptr);
+        prot->activate_cube(0);
+    }
+
 }
 
