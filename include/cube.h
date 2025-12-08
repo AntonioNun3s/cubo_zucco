@@ -14,7 +14,7 @@ public:
     uint8_t get_led(int x, int y, int z);
     void set_leds(uint8_t (*p)[8][8][8]);
     void set_led(uint8_t value, int x, int y, int z);
-    void fill_plane_y(uint8_t (*p)[8][8][8], int y);
+    void fill_plane_y(uint8_t mat[8][8], int y);
     void clear_leds();
 
 private:

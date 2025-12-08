@@ -4,12 +4,17 @@
 #include <cube.h>
 
 #include <random>
+#include <chrono>
+#include <thread>
 
 std::random_device rd;
 std::mt19937 gen(rd());
 std::uniform_int_distribution<> dist_x_y(0, 2);
 std::uniform_int_distribution<> dist_pos_half(0, 4);
 std::uniform_int_distribution<> dist_pos(0, 8);
+
+auto delay_blink = std::chrono::milliseconds(120);
+auto delay_move_y = std::chrono::milliseconds(200);
 
 class Effects{
 

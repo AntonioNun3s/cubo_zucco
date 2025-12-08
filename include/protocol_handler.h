@@ -36,7 +36,7 @@ public:
     virtual ~Protocol_handler();
 
     int open();
-    int send_cube(char cid, Cube cubo);
+    int send_cube(char cid, uint8_t (*ptr)[8][8][8]);
     void activate_cube(char cid);
     void clear_cube();
 

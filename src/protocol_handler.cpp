@@ -2,8 +2,6 @@
 #include <iostream>
 #include <cstring>
 
-using namespace std;
-
 Protocol_handler::Protocol_handler(){
     baudrate = 115200;
 }
@@ -25,7 +23,7 @@ int Protocol_handler::open(){
         NULL);
 
     if (pcom == INVALID_HANDLE_VALUE) {
-        cerr << "Nao abriu a " << port;
+        std::cerr << "Nao abriu a " << port << std::endl;
         return 1;
     }
 
@@ -37,7 +35,7 @@ int Protocol_handler::open(){
     cdcb.Parity = 2;
 
     if (!SetCommState(pcom, &cdcb)) {
-        cerr << "SetCommState" << stderr;
+        std::cerr << "SetCommState" << std::endl;
         return 2;
     }
 
@@ -51,7 +49,7 @@ int Protocol_handler::open(){
     return 0;
 }
 
-int Protocol_handler::send_cube(char cid, Cube cubo){
+int Protocol_handler::send_cube(char cid, uint (*cube_leds)[8][8][8]){
 
     in[0] = SNC;
     in[1] = cid + CID;
@@ -62,22 +60,22 @@ int Protocol_handler::send_cube(char cid, Cube cubo){
 
     if(out[0] != MND){
 
-        cerr << "resposta invalida. codigo de erro: " << answers_name[out[0]] << endl;
+        std::cerr << "resposta invalida. codigo de erro: " << answers_name[out[0]] << std::endl;
         return 1;
     }
 
-    cout << "autorizado!. codigo de envio: " << answers_name[out[0]] << endl;
+    std::cout << "autorizado!. codigo de envio: " << answers_name[out[0]] << std::endl;
 
-    WriteFile(pcom, cubo.get_leds(), 512, &n, NULL);
+    WriteFile(pcom, cube_leds, 512, &n, NULL);
 
     ReadFile(pcom, out, 1, &n, NULL);
 
     if(out[0] != ACK){
-        cerr << "nao foi possivel enviar a imagem. codigo de erro: " << answers_name[out[0]] << endl;
+        std::cerr << "nao foi possivel enviar a imagem. codigo de erro: " << answers_name[out[0]] << std::endl;
         return 2;
     }
 
-    cout << "imagem " << (int)cid << " enviada" << endl;
+    std::cout << "imagem " << (int)cid << " enviada" << std::endl;
 
     return 0;
 
